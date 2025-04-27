@@ -35,7 +35,7 @@ def deg_to_dms(deg):
     return ((d, 1), (m, 1), (s, 100))
 
 # --- Streamlit App ---
-st.title("Bulk Image EXIF Data Optimizer + ZIP Download")
+st.title("Bulk Image EXIF Data Optimizer")
 
 uploaded_files = st.file_uploader("Upload Images", type=["jpg", "jpeg", "png", "webp", "bmp", "tiff", "heic"], accept_multiple_files=True)
 
