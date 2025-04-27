@@ -5,7 +5,7 @@ import io
 import zipfile
 
 # --- Helper Functions ---
-def add_exif_data(img, title, subject, rating, tags, comments, gps_latitude, gps_longitude):
+def add_exif_data(img, title, subject, tags, comments, gps_latitude, gps_longitude):
     exif_dict = {"0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": None}
 
     exif_dict['0th'][piexif.ImageIFD.ImageDescription] = title.encode('utf-8')
@@ -13,17 +13,9 @@ def add_exif_data(img, title, subject, rating, tags, comments, gps_latitude, gps
     exif_dict['0th'][piexif.ImageIFD.XPKeywords] = tags.encode('utf-16le')
     exif_dict['0th'][piexif.ImageIFD.XPComment] = comments.encode('utf-16le')
 
-    # Correct Rating Mapping
-    rating_mapping = {
-        0: 0,
-        1: 12,
-        2: 37,
-        3: 62,
-        4: 87,
-        5: 99
-    }
-    rating_value = rating_mapping.get(rating, 0)
-    exif_dict['0th'][18246] = rating_value  # Windows rating tag
+    # Always Set 5-Star Rating
+    rating_value = 99
+    exif_dict['0th'][18246] = rating_value
 
     if gps_latitude and gps_longitude:
         exif_dict['GPS'][piexif.GPSIFD.GPSLatitudeRef] = 'N' if gps_latitude >= 0 else 'S'
