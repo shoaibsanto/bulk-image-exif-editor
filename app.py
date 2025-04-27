@@ -13,9 +13,9 @@ def add_exif_data(img, title, subject, tags, comments, gps_latitude, gps_longitu
     exif_dict['0th'][piexif.ImageIFD.XPKeywords] = tags.encode('utf-16le')
     exif_dict['0th'][piexif.ImageIFD.XPComment] = comments.encode('utf-16le')
 
-    # Always Set 5-Star Rating
+    # Always set 5-star rating
     rating_value = 99
-    exif_dict['0th'][18246] = rating_value
+    exif_dict['0th'][18246] = rating_value  # Windows rating tag
 
     if gps_latitude and gps_longitude:
         exif_dict['GPS'][piexif.GPSIFD.GPSLatitudeRef] = 'N' if gps_latitude >= 0 else 'S'
