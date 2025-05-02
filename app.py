@@ -36,7 +36,7 @@ def add_exif_data(img, title, subject, tags, comments, gps_latitude, gps_longitu
     return output
 
 # --- Streamlit App ---
-st.title("Bulk Image EXIF Metadata Optimizer")
+st.title("Bulk Image Optimizer")
 
 uploaded_files = st.file_uploader(
     "Upload Images", 
