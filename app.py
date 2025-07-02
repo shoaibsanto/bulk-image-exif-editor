@@ -59,10 +59,14 @@ if uploaded_files:
     updated_images = []
 
     for uploaded_file in uploaded_files:
+        if uploaded_file.size < 1024:  # Ignore files smaller than 1 KB
+            st.warning(f"Skipping {uploaded_file.name}: file too small or invalid.")
+            continue
+    
         try:
             image = Image.open(uploaded_file)
-            image.verify()  # Check if it is a real image
-            uploaded_file.seek(0)  # Reset file pointer after verify
+            image.verify()  # Quick check
+            uploaded_file.seek(0)  # Reset file after verify
             image = Image.open(uploaded_file)
     
             if image.mode in ("RGBA", "P"):
