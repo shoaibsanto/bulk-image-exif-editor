@@ -59,14 +59,22 @@ if uploaded_files:
     updated_images = []
 
     for uploaded_file in uploaded_files:
-        image = Image.open(uploaded_file)
-        if image.mode in ("RGBA", "P"):
-            image = image.convert("RGB")
-        updated_img = add_exif_data(
-            image, title, subject, tags, comments, gps_latitude, gps_longitude
-        )
-        updated_filename = uploaded_file.name.rsplit('.', 1)[0] + ".jpg"
-        updated_images.append((updated_filename, updated_img))
+        try:
+            image = Image.open(uploaded_file)
+            image.verify()  # Check if it is a real image
+            uploaded_file.seek(0)  # Reset file pointer after verify
+            image = Image.open(uploaded_file)
+    
+            if image.mode in ("RGBA", "P"):
+                image = image.convert("RGB")
+    
+            updated_img = add_exif_data(
+                image, title, subject, tags, comments, gps_latitude, gps_longitude
+            )
+            updated_filename = uploaded_file.name.rsplit('.', 1)[0] + ".jpg"
+            updated_images.append((updated_filename, updated_img))
+        except Exception as e:
+            st.warning(f"Skipping file {uploaded_file.name}: {e}")
 
     # --- Option 1: Download All as ZIP ---
     zip_buffer = io.BytesIO()
